@@ -1,13 +1,13 @@
 <template>
+  <h1>Conversor</h1>
     <div>
-      <div class="container pt-3">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="form-group">
+      <div>
+        <div>
+          <div>
+            <div>
               <label for="cantidad">Ingrese Cantidad</label>
               <input
                 type="number"
-                class="form-control form-control-lg"
                 id="cantidad"
                 placeholder="Ingrese cantidad.."
                 v-model="cantidad"
@@ -16,14 +16,13 @@
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="form-group">
-              <label for="tengo">Tengo</label>
+        <div>
+          <div>
+            <div>
+              <label for="origin">Origen</label>
               <select
-                class="form-control form-control-lg"
-                id="tengo"
-                v-model="tengo"
+                id="origin"
+                v-model="origin"
                 v-on:change="onChange()"
               >
                 <option v-for="(moneda, index) in monedas" v-bind:key="index">
@@ -32,13 +31,12 @@
               </select>
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="form-group">
-              <label for="quiero">Quiero</label>
+          <div>
+            <div>
+              <label for="exchange">Cambio</label>
               <select
-                class="form-control form-control-lg"
-                id="quiero"
-                v-model="quiero"
+                id="exchange"
+                v-model="exchange"
                 v-on:change="onChange()"
               >
                 <option v-for="(moneda, index) in monedas" v-bind:key="index">
@@ -48,12 +46,12 @@
             </div>
           </div>
         </div>
-        <div class="text-center pt-4">
-          <h5 v-if="cantidad > 0">
-            <span class="badge badge-success">{{ cantidad }} {{ tengo }}</span>
-            <span class="badge badge-dark"> SON </span>
-            <span class="badge badge-success">{{ getTotal(total) }} {{ quiero }}</span>
-          </h5>
+        <div>
+          <h3 v-if="cantidad > 0">
+            <span>{{ cantidad }} {{ origin }}</span>
+            <span> SON </span>
+            <span>{{ getTotal(total) }} {{ exchange }}</span>
+          </h3>
         </div>
       </div>
     </div>
@@ -65,66 +63,72 @@
       return {
         monedas: ["USD", "EUR", "LEM", "YEN"],
         cantidad: 0,
-        tengo: "USD",
-        quiero: "EUR",
+        origin: "USD",
+        exchange: "EUR",
         total: 0,
       };
     },
     methods: {
       onChange() {
-        switch (this.tengo) {
+        switch (this.origin) {
           // Usuario selecciono que tiene dolares
           case "USD":
-            if (this.quiero === "USD") {
+            if (this.exchange === "USD") {
               this.total = this.cantidad;
             }
-            if (this.quiero === "LEM") {
+            if (this.exchange === "EUR") {
+              this.total = this.cantidad * 0.92;
+            }
+            if (this.exchange === "LEM") {
               this.total = this.cantidad * 24.67;
             }
-            if (this.quiero === "LEM") {
-              this.total = this.cantidad * 0.75;
+            if (this.exchange === "YEN") {
+              this.total = this.cantidad * 129.56;
             }
             break;
           // Usuario selecciono que tiene euros
           case "EUR":
-            if (this.quiero === "USD") {
-              this.total = this.cantidad * 1.19;
+            if (this.exchange === "USD") {
+              this.total = this.cantidad * 1.09;
             }
-            if (this.quiero === "EUR") {
+            if (this.exchange === "EUR") {
               this.total = this.cantidad;
             }
-            if (this.quiero === "LEM") {
-              this.total = this.cantidad * 24.67;
+            if (this.exchange === "LEM") {
+              this.total = this.cantidad * 26.83;
+            }
+            if (this.exchange === "YEN") {
+              this.total = this.cantidad * 140.92;
             }
             break;
             // Usuario selecciono lempiras
           case "LEM":
-            if (this.quiero === "USD") {
-              this.total = this.cantidad * 1.33;
+            if (this.exchange === "USD") {
+              this.total = this.cantidad * 0.041;
             }
-            if (this.quiero === "EUR") {
-              this.total = this.cantidad * 1.12;
+            if (this.exchange === "EUR") {
+              this.total = this.cantidad * 0.037;
             }
-            if (this.quiero === "LEM") {
+            if (this.exchange === "LEM") {
               this.total = this.cantidad;
             }
-            if (this.quiero === "YEN") {
-              this.total = this.cantidad * 129.56;
+            if (this.exchange === "YEN") {
+              this.total = this.cantidad * 5.25;
             }
             break;
             // Usuario selecciono yenes
             case "YEN":
-            if (this.quiero === "USD") {
-              this.total = this.cantidad * 1.19;
+            if (this.exchange === "USD") {
+              this.total = this.cantidad * 0.0077;
             }
-            if (this.quiero === "EUR") {
+            if (this.exchange === "EUR") {
+              this.total = this.cantidad * 0.0071;
+            }
+            if (this.exchange === "LEM") {
+              this.total = this.cantidad * 0.19;
+            }
+            if (this.exchange === "YEN") {
               this.total = this.cantidad;
-            }
-            if (this.quiero === "LEM") {
-              this.total = this.cantidad * 24.67;
-            }
-            if (this.quiero === "YEN") {
-              this.total = this.cantidad * 129.56;
             }
             break;
           default:
